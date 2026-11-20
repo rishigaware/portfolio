@@ -72,7 +72,8 @@ function Bar({ progress }) {
 
 const indexAt = (v, n) => Math.min(n, Math.max(1, Math.round(v * (n - 1)) + 1))
 
-// Large screens: the section pins and vertical scrolling moves the slides sideways, one pixel per pixel.
+// Large screens: the section pins and vertical scrolling moves the slides sideways.
+// The 0.7 factor keeps the pinned stretch from feeling long; raise it to slow the slides down.
 function Pinned() {
   const ref = useRef(null)
   const track = useRef(null)
@@ -93,7 +94,7 @@ function Pinned() {
   }, [])
 
   return (
-    <section id="work" ref={ref} aria-label="Selected projects" className="relative" style={{ height: `calc(100vh + ${travel}px)` }}>
+    <section id="work" ref={ref} aria-label="Selected projects" className="relative" style={{ height: `calc(100vh + ${Math.round(travel * 0.7)}px)` }}>
       <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden pt-16">
         <Head current={current} n={n} hint="Keep scrolling" />
         <motion.div ref={track} style={{ x }} className="flex w-max gap-6 px-16 will-change-transform">

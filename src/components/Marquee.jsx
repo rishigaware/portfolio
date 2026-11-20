@@ -26,7 +26,7 @@ export default function Marquee() {
   return (
     <section aria-label="Technologies" className="marquee border-y border-white/10 py-6 md:py-9">
       <div className="md:flex md:items-center">
-        <p className="px-6 pb-4 text-sm leading-snug text-white/60 md:w-48 md:shrink-0 md:border-r md:border-white/10 md:py-3 md:pb-3 md:pl-16 md:pr-8">
+        <p className="px-6 pb-4 text-sm leading-snug text-white/60 md:w-52 md:text-base md:shrink-0 md:border-r md:border-white/10 md:py-3 md:pb-3 md:pl-16 md:pr-8">
           Tools I<br className="hidden md:block" /> build with
         </p>
         <div className="min-w-0 flex-1 space-y-1 overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_10%,#000_90%,transparent)] md:space-y-2">
