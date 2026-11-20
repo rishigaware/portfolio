@@ -47,8 +47,8 @@ export default function App() {
         <ParallaxGrid />
         {/* <CtaBand /> */}
         <Testimonials />
-        <Blog />
-        <FAQ />
+        {/* <Blog /> */}
+        {/* <FAQ /> */}
         <Contact />
       </main>
       <Footer />

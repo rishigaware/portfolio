@@ -36,7 +36,7 @@ export default function Hero() {
       </h1>
       <div className="relative z-10 mt-6 flex flex-col gap-6 sm:mt-10 md:flex-row md:items-end md:justify-between">
         <motion.p initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: DUR, ease: EASE }} className="max-w-md text-base text-white/70">
-          I’m {site.name}, a full-stack developer who designs and builds fast, accessible web apps with React and Node. (Placeholder intro: replace with your own.)
+          I’m {site.name}, a MERN Stack Developer with 3 years of experience building scalable web applications, enterprise workflow automation, and GenAI integrations.
         </motion.p>
         <div className="flex flex-wrap gap-3 sm:gap-4">
           <Magnetic>
