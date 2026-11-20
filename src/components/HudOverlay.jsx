@@ -11,7 +11,7 @@ export default function HudOverlay() {
     return () => clearInterval(id)
   }, [])
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-3 z-[5] md:inset-6">
+    <div aria-hidden className="pointer-events-none absolute inset-6 z-[5] hidden md:block">
       <span className={`${bracket} left-0 top-0 border-l-2 border-t-2`} />
       <span className={`${bracket} right-0 top-0 border-r-2 border-t-2`} />
       <span className={`${bracket} bottom-0 left-0 border-b-2 border-l-2`} />

@@ -72,7 +72,7 @@ export default function Contact() {
       <p className="mt-4 max-w-xl text-white/70">Get in touch with {site.name} about a project, a role, or just to say hello.</p>
       <div className="mt-12 grid gap-10 lg:grid-cols-2">
         <div>
-          <button onClick={copy} data-cursor="Copy" aria-label="Copy email address" className="inline-flex items-center gap-3 break-all text-lg font-medium hover:text-lime md:text-xl">
+          <button onClick={copy} data-cursor="Copy" aria-label="Copy email address" className="inline-flex min-h-[44px] items-center gap-3 break-all text-left text-lg font-medium hover:text-lime md:text-xl">
             {site.email} {copied ? <Check size={20} /> : <Copy size={20} />}
           </button>
           <p className="mt-2 text-sm text-white/50" aria-live="polite">{copied ? 'Copied to clipboard' : 'Click to copy'}</p>

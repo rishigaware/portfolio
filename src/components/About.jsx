@@ -18,10 +18,10 @@ export default function About() {
           <p>Placeholder: a paragraph about {site.name}’s background and what he enjoys building.</p>
           <p>Placeholder: your development philosophy, such as accessibility, performance, or readable code.</p>
         </div>
-        <div className="mt-10 grid grid-cols-3 gap-4">
+        <div className="mt-10 grid grid-cols-3 gap-2.5 sm:gap-4">
           {stats.map((s) => (
-            <div key={s.label} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-              <Counter to={s.value} />
+            <div key={s.label} className="rounded-2xl border border-white/10 bg-white/[0.03] p-3 sm:p-4">
+              <Counter to={s.value} className="text-3xl font-bold tabular-nums sm:text-4xl" />
               <p className="mt-1 text-xs text-white/60">{s.label}</p>
             </div>
           ))}

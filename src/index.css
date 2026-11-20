@@ -32,7 +32,7 @@ a:hover > .link-draw, a:focus-visible > .link-draw { background-size: 100% 1px; 
 @keyframes marquee { to { transform: translateX(-25%); } }
 .marquee-track { animation: marquee 45s linear infinite; will-change: transform; }
 .marquee-reverse { animation-direction: reverse; animation-duration: 55s; }
-.marquee:hover .marquee-track { animation-play-state: paused; }
+@media (hover: hover) { .marquee:hover .marquee-track { animation-play-state: paused; } }
 @media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } }
 
 /* Horizontal swipe areas keep scrolling but hide the bar */

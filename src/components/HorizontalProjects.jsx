@@ -38,10 +38,10 @@ function Card({ p }) {
           </ul>
         </div>
         <div className="flex flex-wrap gap-3">
-          <a href={p.link} className="inline-flex min-h-11 items-center gap-2 rounded-full bg-lime px-5 text-sm font-semibold text-black transition-transform duration-300 hover:-translate-y-0.5">
+          <a href={p.link} className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-lime px-5 text-sm font-semibold text-black transition-transform duration-300 hover:-translate-y-0.5">
             Live demo <ArrowUpRight size={16} aria-hidden />
           </a>
-          <a href={p.repo} className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/20 px-5 text-sm font-semibold transition-colors duration-300 hover:border-white/50">
+          <a href={p.repo} className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-white/20 px-5 text-sm font-semibold transition-colors duration-300 hover:border-white/50">
             <Github size={16} aria-hidden /> Source
           </a>
         </div>

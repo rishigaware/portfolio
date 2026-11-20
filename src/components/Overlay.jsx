@@ -11,7 +11,7 @@ export default function Overlay() {
   return (
     <>
       <div aria-hidden className="grain pointer-events-none fixed -inset-[10%] z-[55]" />
-      <div id="glow" aria-hidden className="pointer-events-none fixed left-0 top-0 z-[1] h-[600px] w-[600px] rounded-full bg-[radial-gradient(circle,rgba(212,255,58,0.10),transparent_60%)]" />
+      <div id="glow" aria-hidden className="pointer-events-none fixed left-0 top-0 z-[1] hidden h-[600px] w-[600px] [@media(hover:hover)_and_(pointer:fine)]:block rounded-full bg-[radial-gradient(circle,rgba(212,255,58,0.10),transparent_60%)]" />
     </>
   )
 }

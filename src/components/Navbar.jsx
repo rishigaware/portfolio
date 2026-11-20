@@ -32,12 +32,25 @@ export default function Navbar() {
     return () => { window.removeEventListener('scroll', onScroll); io.disconnect() }
   }, [])
 
+  // While the phone menu is open: lock page scroll, close on Escape, and close if the screen grows to desktop width.
+  useEffect(() => {
+    if (!open) return
+    const root = document.documentElement
+    root.style.overflowY = 'hidden'
+    const onKey = (e) => { if (e.key === 'Escape') setOpen(false) }
+    const mq = window.matchMedia('(min-width: 1024px)')
+    const onWide = () => { if (mq.matches) setOpen(false) }
+    window.addEventListener('keydown', onKey)
+    mq.addEventListener('change', onWide)
+    return () => { root.style.overflowY = ''; window.removeEventListener('keydown', onKey); mq.removeEventListener('change', onWide) }
+  }, [open])
+
   return (
     <motion.header animate={{ y: hidden && !open ? '-100%' : '0%' }} transition={{ duration: 0.35, ease: EASE }} onFocusCapture={() => setHidden(false)}
-      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${scrolled ? 'border-white/10 bg-black/60 backdrop-blur-md' : 'border-transparent'}`}>
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${scrolled || open ? 'border-white/10 bg-black/60 backdrop-blur-md' : 'border-transparent'}`}>
       <nav aria-label="Main" className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-        <a href="#home" className="text-lg font-bold tracking-tight" aria-label="Rishi Gaware – home">rishi<span className="text-lime">.gaware</span></a>
-        <ul className="hidden items-center gap-1 md:flex">
+        <a href="#home" className="inline-flex min-h-[44px] items-center text-lg font-bold tracking-tight" aria-label="Rishi Gaware – home">rishi<span className="text-lime">.gaware</span></a>
+        <ul className="hidden items-center gap-1 lg:flex">
           {links.map(([id, label]) => (
             <li key={id}>
               <a href={`#${id}`} className="relative block px-4 py-2 text-sm text-white/70 transition-colors hover:text-white">
@@ -48,17 +61,18 @@ export default function Navbar() {
           ))}
         </ul>
         <div className="flex items-center gap-2">
-          <motion.a href="#contact" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="hidden rounded-full bg-lime px-5 py-2 text-sm font-medium text-black md:block">Let’s talk</motion.a>
-          <button className="rounded-full p-2 md:hidden" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} onClick={() => setOpen(!open)}>
+          <motion.a href="#contact" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="hidden rounded-full bg-lime px-5 py-2 text-sm font-medium text-black lg:block">Let’s talk</motion.a>
+          <button className="-mr-2.5 grid h-[44px] w-[44px] place-items-center rounded-full lg:hidden" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen(!open)}>
             {open ? <X /> : <Menu />}
           </button>
         </div>
       </nav>
       <AnimatePresence>
         {open && (
-          <motion.ul initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden bg-black/90 px-6 backdrop-blur-md md:hidden">
+          <motion.ul id="mobile-menu" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.35, ease: EASE }}
+            className="max-h-[calc(100svh-4rem)] overflow-y-auto overscroll-contain bg-black/90 px-6 backdrop-blur-md lg:hidden">
             {links.map(([id, label], i) => (
-              <motion.li key={id} initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1, transition: { delay: i * 0.05 } }}>
+              <motion.li key={id} initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1, transition: { delay: i * 0.05 } }} className="border-b border-white/10 last:border-b-0">
                 <a href={`#${id}`} onClick={() => setOpen(false)} className="block py-4 text-2xl font-medium">{label}</a>
               </motion.li>
             ))}

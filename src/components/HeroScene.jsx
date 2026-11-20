@@ -11,7 +11,7 @@ export default function HeroScene() {
     const el = mount.current
     let renderer
     try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }) } catch { return } // no WebGL: skip quietly
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, window.innerWidth < 768 ? 1.5 : 2)) // lighter on phones
     el.appendChild(renderer.domElement)
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -105,8 +105,11 @@ export default function HeroScene() {
     const resize = () => {
       const w = el.clientWidth, h = el.clientHeight
       renderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix()
-      rig.position.x = w / h > 1.1 ? 3.4 : 0
-      baseScale = w < 640 ? 0.7 : 1
+      // Wide screens: object sits to the right of the text. Portrait screens: it sits above the text, smaller.
+      const wide = w / h > 1.1
+      rig.position.x = wide ? 3.4 : 0
+      rig.position.y = wide ? 0 : 2.1
+      baseScale = wide ? (w < 1024 ? 0.8 : 1) : 0.55
       if (reduced) draw(0)
     }
     const ro = new ResizeObserver(resize); ro.observe(el); resize()
@@ -124,5 +127,5 @@ export default function HeroScene() {
     }
   }, [])
 
-  return <div ref={mount} aria-hidden className="pointer-events-none absolute inset-0 opacity-60 md:opacity-100" />
+  return <div ref={mount} aria-hidden className="pointer-events-none absolute inset-0 opacity-70 md:opacity-100" />
 }
