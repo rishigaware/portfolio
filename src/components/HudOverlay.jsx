@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { motion } from "motion/react";
+import { useEffect, useState } from "react";
 
 const bracket = "absolute h-6 w-6 border-lime/70";
 
@@ -29,14 +29,6 @@ export default function HudOverlay() {
         transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
         className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-lime/40 to-transparent"
       />
-      <div className="absolute bottom-3 left-4 hidden space-y-1 font-mono text-[10px] uppercase tracking-widest text-lime/80 md:block">
-        <p className="flex items-center gap-2">
-          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-lime" />
-          Systems online
-        </p>
-        <p>Core power {v.power}%</p>
-        <p>Scan {String(v.scan).padStart(2, "0")}</p>
-      </div>
     </div>
   );
 }

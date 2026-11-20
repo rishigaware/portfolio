@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence, useAnimate, useReducedMotion } from 'motion/react'
-import { Copy, Check, Github, Linkedin, Loader2 } from 'lucide-react'
+import { Copy, Check, Github, Linkedin, Loader2, Mail } from 'lucide-react'
 import { site } from '../data/projects'
 
 const SHAKE = { x: [0, -6, 6, -4, 4, 0] }
@@ -72,13 +72,16 @@ export default function Contact() {
       <p className="mt-4 max-w-xl text-white/70">Get in touch with {site.name} about a project, a role, or just to say hello.</p>
       <div className="mt-12 grid gap-10 lg:grid-cols-2">
         <div>
-          <button onClick={copy} data-cursor="Copy" aria-label="Copy email address" className="inline-flex min-h-[44px] items-center gap-3 break-all text-left text-lg font-medium hover:text-lime md:text-xl">
-            {site.email} {copied ? <Check size={20} /> : <Copy size={20} />}
+          <button onClick={copy} data-cursor="Copy" aria-label="Copy email address" className="inline-flex min-h-[44px] items-center gap-3 break-all text-left text-lg font-medium hover:text-lime md:text-xl transition-colors">
+            <Mail size={22} className="text-lime shrink-0" />
+            <span>{site.email}</span>
+            {copied ? <Check size={20} className="text-lime shrink-0" /> : <Copy size={20} className="text-white/50 shrink-0" />}
           </button>
           <p className="mt-2 text-sm text-white/50" aria-live="polite">{copied ? 'Copied to clipboard' : 'Click to copy'}</p>
           <div className="mt-8 flex gap-4">
-            <a href={site.github} aria-label="Rishi Gaware on GitHub" className="rounded-full border border-white/20 p-3 hover:bg-white/10"><Github /></a>
-            <a href={site.linkedin} aria-label="Rishi Gaware on LinkedIn" className="rounded-full border border-white/20 p-3 hover:bg-white/10"><Linkedin /></a>
+            <a href={`mailto:${site.email}`} aria-label={`Send email to ${site.name}`} className="rounded-full border border-white/20 p-3 transition-colors hover:border-lime hover:bg-white/10 hover:text-lime"><Mail size={22} /></a>
+            <a href={site.github} target="_blank" rel="noopener noreferrer" aria-label={`${site.name} on GitHub`} className="rounded-full border border-white/20 p-3 transition-colors hover:border-lime hover:bg-white/10 hover:text-lime"><Github size={22} /></a>
+            <a href={site.linkedin} target="_blank" rel="noopener noreferrer" aria-label={`${site.name} on LinkedIn`} className="rounded-full border border-white/20 p-3 transition-colors hover:border-lime hover:bg-white/10 hover:text-lime"><Linkedin size={22} /></a>
           </div>
         </div>
         <form onSubmit={submit} noValidate className="space-y-4">

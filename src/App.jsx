@@ -44,9 +44,9 @@ export default function App() {
         <Experience />
         <Education />
         <Services />
-        <ParallaxGrid />
+        {/* <ParallaxGrid /> */}
         {/* <CtaBand /> */}
-        <Testimonials />
+        {/* <Testimonials /> */}
         {/* <Blog /> */}
         {/* <FAQ /> */}
         <Contact />
