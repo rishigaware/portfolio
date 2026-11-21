@@ -2,10 +2,10 @@
 export const site = {
   name: "Rushikesh Gaware",
   shortName: "Rishi Gaware",
-  role: "MERN Stack Developer",
+  role: "Full Stack Developer",
   email: "gawarerishi@gmail.com",
   phone: "+91 9662631201",
-  location: "Vadodara, India",
+  location: "Ahmedabad, India",
   github: "https://github.com/RishiGaware",
   linkedin: "https://github.com/RishiGaware",
   resume: "/Rushikesh_Gaware_Resume.pdf",
@@ -287,7 +287,7 @@ export const articles = [
 export const faqs = [
   {
     q: "What kind of projects do you specialize in?",
-    a: "I specialize in full-stack web applications using the MERN stack (MongoDB, Express, React, Node.js), enterprise compliance and workflow automation tools, and integrating modern LLMs (Gemini, LangChain, vector search).",
+    a: "I specialize in full-stack web applications using the Full stack (MongoDB, Express, React, Node.js), enterprise compliance and workflow automation tools, and integrating modern LLMs (Gemini, LangChain, vector search).",
   },
   {
     q: "Do you have experience with enterprise and regulatory requirements?",
@@ -299,7 +299,7 @@ export const faqs = [
   },
   {
     q: "Where are you based and how do you work?",
-    a: "I am based in Vadodara, India, and work with distributed teams remotely or on-site. I collaborate smoothly with designers, backend engineers, and stakeholders.",
+    a: "I am based in Ahmedabad, India, and work with distributed teams remotely or on-site. I collaborate smoothly with designers, backend engineers, and stakeholders.",
   },
   {
     q: "How can we discuss an opportunity or project?",
