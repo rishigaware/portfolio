@@ -5,6 +5,24 @@ import { site } from '../data/projects'
 
 const SHAKE = { x: [0, -6, 6, -4, 4, 0] }
 
+// Extra context saved next to each message in the Google Sheet.
+function visitorDetails() {
+  const ua = navigator.userAgent
+  const device = /iPad|Tablet/i.test(ua) ? 'Tablet' : /Mobi|Android|iPhone/i.test(ua) ? 'Mobile' : 'Desktop'
+  const os = /Windows/i.test(ua) ? 'Windows' : /Android/i.test(ua) ? 'Android' : /iPhone|iPad/i.test(ua) ? 'iOS' : /Mac OS/i.test(ua) ? 'macOS' : /Linux/i.test(ua) ? 'Linux' : 'Unknown OS'
+  // Order matters: Edge and Opera also contain "Chrome", and Chrome also contains "Safari".
+  const browser = /Edg\//.test(ua) ? 'Edge' : /OPR\//.test(ua) ? 'Opera' : /Firefox\//.test(ua) ? 'Firefox' : /Chrome\//.test(ua) ? 'Chrome' : /Safari\//.test(ua) ? 'Safari' : 'Unknown browser'
+  return {
+    page: window.location.href,
+    referrer: document.referrer,
+    device: `${device} (${os})`,
+    browser,
+    language: navigator.language,
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    screen: `${window.screen.width}x${window.screen.height}`,
+  }
+}
+
 // One labelled field. Shakes briefly each time a submit attempt leaves it invalid,
 // and links its error text to the input for screen readers.
 function Field({ id, label, error, shake, children }) {
@@ -26,7 +44,7 @@ function Field({ id, label, error, shake, children }) {
 
 export default function Contact() {
   const [copied, setCopied] = useState(false)
-  const [status, setStatus] = useState('idle') // idle | loading | sent | demo
+  const [status, setStatus] = useState('idle') // idle | loading | sent | error | demo
   const [errors, setErrors] = useState({})
   const [shake, setShake] = useState(0)
 
@@ -46,11 +64,28 @@ export default function Contact() {
     const first = Object.keys(err)[0]
     if (first) { setShake((n) => n + 1); form.elements[first].focus(); return }
     setStatus('loading')
-    // TODO: connect a real service (Formspree, EmailJS, your own API) and send `f` here.
-    // When the request succeeds, call setStatus('sent') and form.reset(): the button then shows the check mark.
-    // Until then the form stays honest and says nothing was sent.
-    await new Promise((r) => setTimeout(r, 800))
-    setStatus('demo')
+    // No endpoint configured yet: stay honest and say nothing was sent.
+    if (!site.contactEndpoint) {
+      await new Promise((r) => setTimeout(r, 800))
+      setStatus('demo')
+      return
+    }
+    try {
+      // Sent as text/plain on purpose: Apps Script cannot answer the CORS preflight
+      // that an application/json request would trigger.
+      const res = await fetch(site.contactEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ ...f, ...visitorDetails() }),
+      })
+      const out = await res.json()
+      if (!out.ok) throw new Error(out.error || 'Send failed')
+      form.reset()
+      setStatus('sent')
+      setTimeout(() => setStatus('idle'), 5000)
+    } catch {
+      setStatus('error')
+    }
   }
 
   const field = 'w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 outline-none transition-colors focus:border-lime aria-[invalid=true]:border-pink'
@@ -93,20 +128,32 @@ export default function Contact() {
           <Field id="message" label="Message" error={errors.message} shake={shake}>
             <textarea id="message" name="message" rows={4} className={field} {...aria('message')} />
           </Field>
+          {/* Honeypot: hidden from people, filled in by spam bots. The script drops any message that has it. */}
+          <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
           <motion.button type="submit" disabled={status === 'loading' || status === 'sent'} data-cursor="Send" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.96 }}
             className="inline-flex min-w-[11rem] items-center justify-center gap-2 rounded-full bg-lime px-8 py-3 font-semibold text-black disabled:opacity-80">
             <AnimatePresence mode="wait" initial={false}>
-              <motion.span key={status === 'demo' ? 'idle' : status} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }} className="inline-flex items-center gap-2">
+              <motion.span key={status === 'demo' || status === 'error' ? 'idle' : status} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }} className="inline-flex items-center gap-2">
                 {status === 'loading' && <><Loader2 size={18} aria-hidden className="animate-spin" /> Sending…</>}
                 {status === 'sent' && <><Check size={18} aria-hidden /> Message sent</>}
-                {(status === 'idle' || status === 'demo') && 'Send message'}
+                {(status === 'idle' || status === 'demo' || status === 'error') && 'Send message'}
               </motion.span>
             </AnimatePresence>
           </motion.button>
           <AnimatePresence>
             {status === 'demo' && (
-              <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} role="status" className="text-sm text-white/70">
+              <motion.p key="demo" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} role="status" className="text-sm text-white/70">
                 Form checked, but no backend is connected yet, so nothing was sent. Email me directly at {site.email}.
+              </motion.p>
+            )}
+            {status === 'sent' && (
+              <motion.p key="sent" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} role="status" className="text-sm text-lime">
+                Thanks, your message is on its way. I'll reply by email soon.
+              </motion.p>
+            )}
+            {status === 'error' && (
+              <motion.p key="error" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} role="alert" className="text-sm text-pink">
+                Your message could not be sent. Try again, or email me directly at {site.email}.
               </motion.p>
             )}
           </AnimatePresence>

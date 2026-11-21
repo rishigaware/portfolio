@@ -9,6 +9,9 @@ export const site = {
   github: "https://github.com/RishiGaware",
   linkedin: "https://github.com/RishiGaware",
   resume: "/Rushikesh_Gaware_Resume.pdf",
+  // Google Apps Script web app URL (ends in /exec). See google-apps-script/contact-form.gs.
+  // While empty, the contact form validates but tells visitors nothing was sent.
+  contactEndpoint: "https://script.google.com/macros/s/AKfycbwsK0FUJARoppANi-RJ7xJWGEhFgIqv1cvVS6wRa8ZVoAGNnzf6IJxs7_XEBp_L8oP-/exec",
 };
 
 export const projects = [
