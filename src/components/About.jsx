@@ -74,7 +74,7 @@ export default function About() {
             </div>
           ))}
         </div>
-        <motion.a
+        {/* <motion.a
           href={site.resume}
           download="Rushikesh_Gaware_Resume.pdf"
           whileHover={{ scale: 1.04 }}
@@ -82,7 +82,7 @@ export default function About() {
           className="mt-10 inline-flex items-center gap-2 rounded-full border border-white/25 px-6 py-3 font-medium transition-colors hover:border-lime hover:text-lime"
         >
           <Download size={18} /> Download resume
-        </motion.a>
+        </motion.a> */}
       </div>
     </section>
   );
