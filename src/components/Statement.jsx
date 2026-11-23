@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'motion/react'
 
-const text = 'I don’t just build websites. I craft fast, accessible and memorable digital products that people actually enjoy using. (Placeholder statement: rewrite this in your own voice.)'
+const text = 'I don’t just build websites. I craft fast, accessible and memorable digital products that people actually enjoy using.'
 
 function Word({ w, i, n, progress }) {
   const opacity = useTransform(progress, [i / n, (i + 1) / n], [0.15, 1])
