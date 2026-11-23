@@ -1,4 +1,4 @@
-import { Download } from "lucide-react";
+import { Download, MapPin } from "lucide-react";
 import { motion } from "motion/react";
 
 import { stats, site } from "../data/projects";
@@ -13,23 +13,27 @@ export default function About() {
     >
       <motion.div
         {...rise()}
-        className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl bg-gradient-to-br from-lime/40 to-pink/40 border border-white/10"
+        className="group relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-lime/30 via-white/[0.03] to-pink/30 p-1 shadow-2xl transition-all duration-500 hover:border-lime/40"
       >
-        <div
-          role="img"
-          aria-label={`${site.name} profile`}
-          className="flex flex-col items-center justify-center h-full bg-black/50 backdrop-blur-sm p-6 text-center"
-        >
+        <div className="relative h-full w-full overflow-hidden rounded-[22px] bg-neutral-900">
           <img
-            src="/RG-logo.png"
-            alt={site.name}
-            className="h-28 w-auto object-contain drop-shadow-[0_0_25px_rgba(212,255,58,0.35)]"
+            src={site.photo || "/profile.png"}
+            alt={`${site.name} profile portrait`}
+            className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
           />
-          <p className="mt-4 font-mono text-sm uppercase tracking-wider text-lime">
-            {site.name}
-          </p>
-          <p className="text-xs text-white/70">{site.role}</p>
-          <p className="mt-1 text-[11px] text-white/50">{site.location}</p>
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+
+          {/* Profile details overlay */}
+          <div className="absolute inset-x-0 bottom-0 p-5 text-left">
+            <p className="font-mono text-xs uppercase tracking-wider text-lime">
+              {site.name}
+            </p>
+            <p className="text-sm font-medium text-white/90">{site.role}</p>
+            <div className="mt-1 flex items-center gap-1.5 text-xs text-white/60">
+              <MapPin size={12} className="text-lime" />
+              <span>{site.location}</span>
+            </div>
+          </div>
         </div>
       </motion.div>
       <div>

@@ -3,6 +3,7 @@ export const site = {
   name: "Rushikesh Gaware",
   shortName: "Rishi Gaware",
   role: "Full Stack Developer",
+  photo: "/profile.png",
   email: "gawarerishi@gmail.com",
   phone: "+91 9662631201",
   location: "Ahmedabad, India",
